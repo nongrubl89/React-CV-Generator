@@ -1,0 +1,63 @@
+.container {
+  display: grid;
+  grid-template-columns: 25% 50% 25%;
+  grid-template-areas: "left main right";
+  font-family: "Lato";
+}
+
+.contact,
+.education,
+.employment {
+  display: grid;
+  max-height: 0;
+  overflow: hidden;
+  grid-column: 2/3;
+  transition: max-height 0.25s linear;
+}
+
+.header-contact,
+.header-education,
+.header-employment {
+  display: grid;
+  grid-column: 2/3;
+}
+
+.contact-show,
+.education-show,
+.employment-show {
+  display: grid;
+  grid-column: 2/3;
+  max-height: 700px;
+  transition: max-height 0.25s ease-in;
+  margin-top: 8px;
+  grid-template-rows: auto;
+  justify-content: center;
+}
+
+#header-button {
+  border: none;
+  background-color: rgb(126, 207, 131);
+  height: 50px;
+  border-radius: 8px;
+  width: 75%;
+  display: grid;
+  justify-self: center;
+  align-content: center;
+  justify-content: right;
+  padding-right: 5%;
+  font-family: "Lato";
+}
+
+#header-button:hover {
+  background-color: rgb(109, 181, 113);
+}
+
+textarea {
+  border-radius: 12px;
+  border: 1px solid lightgray;
+  resize: none;
+}
+
+label {
+  padding: 6px;
+}
