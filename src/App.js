@@ -2,6 +2,8 @@ import React, { Component } from "react";
 import Header from "./components/Header";
 import ContactForm from "./components/ContactForm";
 import ContactSection from "./components/ContactSection";
+import EmploymentSection from "./components/EmploymentSection";
+import EducationSection from "./components/EducationSection";
 import SectionHeader from "./components/SectionHeader";
 import EducationForm from "./components/EducationForm";
 import WorkHistory from "./components/WorkHistory";
@@ -20,8 +22,10 @@ class App extends Component {
       employmentClass: "employment",
       contactInfo: false,
       educationInfo: false,
-      workInfo: false,
-      eduArray: [],
+      employmentInfo: false,
+      educationArray: [],
+      employmentArray: [],
+      readyToGenerate: false,
       contact: {
         firstName: "",
         lastName: "",
@@ -33,15 +37,15 @@ class App extends Component {
         institution: "",
         typeOfEd: "",
         fieldOfStudy: "",
-        endDate: new Date(),
+        eduEndDate: new Date(),
         eduBeginDate: new Date(),
       },
       employment: {
         employer: "",
         title: "",
         duties: "",
-        beginDate: new Date(),
-        endDate: new Date(),
+        emplBeginDate: new Date(),
+        emplEndDate: new Date(),
       },
     };
   }
@@ -50,6 +54,7 @@ class App extends Component {
     const defaultValues = {
       string: "",
       boolean: false,
+      // Date: new Date(),
     };
 
     return Object.keys(obj).reduce((acc, rec, index) => {
@@ -57,19 +62,10 @@ class App extends Component {
     }, {});
   };
 
-  eduBeginDateChange = (date, name) => {
+  dateChange = (date, name, category) => {
     this.setState(
       (prevState) => ({
-        education: { ...prevState.education, eduBeginDate: date },
-      }),
-      () => console.log(this.state)
-    );
-  };
-
-  eduEndDateChange = (date) => {
-    this.setState(
-      (prevState) => ({
-        education: { ...prevState.education, endDate: date },
+        [category]: { ...prevState[category], [name]: date },
       }),
       () => console.log(this.state)
     );
@@ -89,38 +85,27 @@ class App extends Component {
 
   handleSubmit = (e) => {
     e.preventDefault();
-    let contact = { ...this.state.contact };
-    contact.complete = true;
-    this.setState({ contact, contactInfo: false }, () =>
+
+    this.setState({ contactClass: "contact", contactInfo: true }, () =>
       console.log(this.state)
     );
   };
 
-  handleEduSubmit = (e) => {
+  handleWorkEduSubmit = (e) => {
     e.preventDefault();
-    console.log(e.target.id);
-    e.target.id === "submitEdu"
-      ? this.setState({ educationInfo: false })
-      : this.setState({ educationInfo: true });
+    const stateObject = e.target.dataset.target; //education
+    const initialClass = `${stateObject}Class`;
+    const showFormClass = `${stateObject}-show`;
+    const array = `${stateObject}Array`;
+    const infoBoolean = `${stateObject}Info`;
+    e.target.id === "submit"
+      ? this.setState({ [initialClass]: stateObject })
+      : this.setState({ [initialClass]: showFormClass });
     this.setState(
       {
-        eduArray: this.state.eduArray.concat(this.state.education),
-        education: this.getDefaultObject(this.state.education),
-      },
-      () => console.log(this.state)
-    );
-  };
-
-  handleWorkSubmit = (e) => {
-    e.preventDefault();
-    console.log(e.target.id);
-    e.target.id === "submitWork"
-      ? this.setState({ educationInfo: false })
-      : this.setState({ educationInfo: true });
-    this.setState(
-      {
-        eduArray: this.state.eduArray.concat(this.state.education),
-        education: this.getDefaultObject(this.state.education),
+        [array]: this.state[array].concat(this.state[stateObject]), //educationArray: this.state.educationArray.concat(this.state.education)
+        [stateObject]: this.getDefaultObject(this.state[stateObject]),
+        [infoBoolean]: true,
       },
       () => console.log(this.state)
     );
@@ -135,6 +120,23 @@ class App extends Component {
     this.setState({
       [stateName]: newState,
     });
+  };
+
+  generateCV = () => {
+    if (
+      this.state.contactInfo &&
+      this.state.employmentInfo &&
+      this.state.educationInfo
+    ) {
+      this.setState({ readyToGenerate: !this.state.readyToGenerate });
+      console.log("generating CV");
+    } else if (
+      !this.state.contactInfo ||
+      !this.state.employmentInfo ||
+      !this.state.educationInfo
+    ) {
+      console.log("not ready to generate");
+    }
   };
 
   render() {
@@ -166,27 +168,33 @@ class App extends Component {
         >
           <EducationForm
             handleChange={this.handleChange}
-            handleSubmit={this.handleEduSubmit}
+            handleSubmit={this.handleWorkEduSubmit}
             institution={this.state.education.institution}
             typeOfEd={this.state.education.typeOfEd}
             fieldOfStudy={this.state.education.fieldOfStudy}
-            // addInstitution={this.addInstitution}
             educationClass={this.state.educationClass}
             calendar={
               <>
                 <DatePicker
+                  onChange={(date) =>
+                    this.dateChange(date, "eduBeginDate", "education")
+                  }
                   selected={this.state.education.eduBeginDate}
-                  onChange={this.eduBeginDateChange}
                   dateFormat="MM/yyyy"
                   showMonthYearPicker
                   name="eduBeginDate"
+                  category="education"
+                  className="datepicker"
                 />
                 <DatePicker
-                  selected={this.state.education.endDate}
-                  onChange={this.eduEndDateChange}
+                  selected={this.state.education.eduEndDate}
+                  onChange={(date) =>
+                    this.dateChange(date, "eduEndDate", "education")
+                  }
                   dateFormat="MM/yyyy"
                   showMonthYearPicker
                   name="eduEndDate"
+                  category="education"
                 />
               </>
             }
@@ -200,25 +208,30 @@ class App extends Component {
         >
           <WorkHistory
             handleChange={this.handleChange}
-            handleSubmit={this.handleWorkSubmit}
-            institution={this.state.employment.employer}
-            typeOfEd={this.state.employment.title}
-            fieldOfStudy={this.state.employment.duties}
-            // addEmployment={this.state.addEmployment}
+            handleSubmit={this.handleWorkEduSubmit}
+            employer={this.state.employment.employer}
+            title={this.state.employment.title}
+            duties={this.state.employment.duties}
             employmentClass={this.state.employmentClass}
             calendar={
               <>
                 <DatePicker
-                  data-date="beginDate"
-                  selected={this.state.education.beginDate}
-                  onChange={this.eduBeginDateChange}
+                  name="emplBeginDate"
+                  category="employment"
+                  selected={this.state.employment.emplBeginDate}
+                  onChange={(date) =>
+                    this.dateChange(date, "emplBeginDate", "employment")
+                  }
                   dateFormat="MM/yyyy"
                   showMonthYearPicker
                 />
                 <DatePicker
-                  data-date="endDate"
-                  selected={this.state.education.endDate}
-                  onChange={this.eduEndDateChange}
+                  name="emplEndDate"
+                  category="employment"
+                  selected={this.state.employment.emplEndDate}
+                  onChange={(date) =>
+                    this.dateChange(date, "emplEndDate", "employment")
+                  }
                   dateFormat="MM/yyyy"
                   showMonthYearPicker
                 />
@@ -226,11 +239,16 @@ class App extends Component {
             }
           />
         </SectionHeader>
-        <GeneratedCV>
-          {this.state.contact.complete ? (
+        <button type="button" id="generate" onClick={this.generateCV}>
+          Generate My CV
+        </button>
+        {this.state.readyToGenerate ? (
+          <GeneratedCV>
             <ContactSection {...this.state.contact} />
-          ) : null}
-        </GeneratedCV>
+            <EducationSection {...this.state.educationArray} />
+            <EmploymentSection {...this.state.employmentArray} />
+          </GeneratedCV>
+        ) : null}
       </div>
     );
   }

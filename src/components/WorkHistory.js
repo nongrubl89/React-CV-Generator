@@ -3,49 +3,49 @@ import React, { Component } from "react";
 class WorkHistory extends Component {
   render() {
     return (
-      <div>
+      <div className="wrapper-employment">
         <form className={this.props.employmentClass}>
-          <label>
-            Employer:
-            <textarea
-              name="employer"
-              data-nav="employment"
-              value={this.props.employer}
-              onChange={this.props.handleChange}
-            />
-          </label>
-          <label>
-            Job Title:
-            <textarea
-              name="title"
-              data-nav="employment"
-              value={this.props.title}
-              onChange={this.props.handleChange}
-            />
-          </label>
-          <label>
-            Summary of duties:
-            <textarea
-              name="duties"
-              data-nav="employment"
-              value={this.props.duties}
-              onChange={this.props.handleChange}
-            />
-            Dates of Employment:
-            {this.props.calendar}
-          </label>
-          <p>Done with work history?</p>
+          <label>Employer:</label>
+          <textarea
+            name="employer"
+            data-nav="employment"
+            value={this.props.employer}
+            onChange={this.props.handleChange}
+          />
+          <label>Job Title:</label>
+          <textarea
+            name="title"
+            data-nav="employment"
+            value={this.props.title}
+            onChange={this.props.handleChange}
+          />
+          <label>Summary of duties:</label>
+          <textarea
+            id="duties"
+            name="duties"
+            data-nav="employment"
+            value={this.props.duties}
+            onChange={this.props.handleChange}
+          />
+
+          <label>Dates of Employment:</label>
+          <div class="datepicker">{this.props.calendar}</div>
+          <label>Done with work history?</label>
           <button
             type="button"
-            id="submitWork"
+            id="submit"
+            className="submit-add"
+            data-target="employment"
             onClick={this.props.handleSubmit}
           >
             Submit
           </button>
-          <p>Submit and add another job</p>
+          <label>Submit and add another job</label>
           <button
             type="button"
-            id="submitWork"
+            id="addWork"
+            className="submit-add"
+            data-target="employment"
             onClick={this.props.handleSubmit}
           >
             Add

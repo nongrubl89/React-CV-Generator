@@ -1,3 +1,11 @@
+*,
+::before,
+::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: content-box;
+}
+
 .container {
   display: grid;
   grid-template-columns: 25% 50% 25%;
@@ -5,6 +13,29 @@
   font-family: "Lato";
 }
 
+.wrapper-education,
+.wrapper-employment,
+.wrapper-contact {
+  display: grid;
+  justify-content: center;
+}
+.top-header {
+  top: 0;
+  right: 0;
+  position: fixed;
+  height: 4%;
+  background: #34b7eb;
+  display: grid;
+  padding: 15px;
+  width: 100%;
+  justify-content: right;
+  z-index: 9999;
+  align-content: center;
+  margin-top: 0px;
+  background-color: #6199f2;
+  margin-bottom: 4em;
+  font-family: "Lato", light;
+}
 .contact,
 .education,
 .employment {
@@ -17,9 +48,14 @@
 
 .header-contact,
 .header-education,
-.header-employment {
+.header-employment,
+#generate {
   display: grid;
   grid-column: 2/3;
+}
+
+.header-contact {
+  margin-top: 3em;
 }
 
 .contact-show,
@@ -30,34 +66,87 @@
   max-height: 700px;
   transition: max-height 0.25s ease-in;
   margin-top: 8px;
-  grid-template-rows: auto;
-  justify-content: center;
 }
 
-#header-button {
+form {
+  /* display: grid; */
+  grid-template-columns: 1fr 0.5em 1fr;
+  width: 100%;
+  margin: 0 auto;
+}
+
+.header-button,
+#generate {
   border: none;
   background-color: rgb(126, 207, 131);
   height: 50px;
   border-radius: 8px;
-  width: 75%;
+  width: 100%;
   display: grid;
   justify-self: center;
   align-content: center;
   justify-content: right;
   padding-right: 5%;
-  font-family: "Lato";
+  font-family: "Lato", light;
+  font-weight: 200;
+  font-size: medium;
 }
 
-#header-button:hover {
+.header-button:hover {
   background-color: rgb(109, 181, 113);
 }
 
-textarea {
+input[type="text"],
+textarea,
+select,
+option {
   border-radius: 12px;
   border: 1px solid lightgray;
   resize: none;
+  height: 30px;
+  grid-column: 3;
+  width: 80%;
+  margin: 6px !important;
+  padding: 6px !important;
+  font-family: "Lato";
 }
 
 label {
   padding: 6px;
+  grid-column: 1;
+  text-align: right;
+  display: grid;
+  align-content: center;
+}
+
+#generate {
+  margin-top: 50px;
+}
+
+.submit-add {
+  border-radius: 20px;
+  background: white;
+  border: 1px gray solid;
+  width: 100px;
+  height: 40px;
+  margin: 6px;
+}
+
+.submit-add:hover {
+  background: #d3d6db;
+  border: 1px #d4d6db solid;
+  color: white;
+}
+
+.datepicker {
+  grid-column: 3;
+}
+
+#contact-submit {
+  grid-column: 2/3;
+  justify-self: center;
+}
+
+#duties {
+  height: 10em;
 }

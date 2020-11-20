@@ -27,50 +27,46 @@ class ContactForm extends Component {
   showMore() {}
   render() {
     return (
-      <div>
+      <div className="wrapper-contact">
         <form
           className={this.props.contactClass}
           onSubmit={this.props.handleSubmit}
         >
-          <label>
-            First Name:
-            <textarea
-              name="firstName"
-              data-nav="contact"
-              value={this.props.firstName}
-              onChange={this.props.handleChange}
-            />
-          </label>
-          <label>
-            Last Name:
-            <textarea
-              name="lastName"
-              data-nav="contact"
-              value={this.props.lastName}
-              onChange={this.props.handleChange}
-            />
-          </label>
-          <label>
-            Phone Number:
-            <textarea
-              name="phone"
-              data-nav="contact"
-              value={this.props.phone}
-              onChange={this.props.handleChange}
-            />
-            <label>
-              {this.state.emailLabel}
-              <textarea
-                name="email"
-                data-nav="contact"
-                value={this.props.email}
-                onChange={this.props.handleChange}
-                onBlur={this.validateEmail.bind(this)}
-              />
-            </label>
-          </label>
+          <label id="first-name">First Name:</label>
+          <textarea
+            // placeholder="First Name"
+            // style={{ fontFamily: "Lato" }}
+            name="firstName"
+            data-nav="contact"
+            value={this.props.firstName}
+            onChange={this.props.handleChange}
+          />
+          <label id="last-name">Last Name:</label>
+          <textarea
+            name="lastName"
+            data-nav="contact"
+            value={this.props.lastName}
+            onChange={this.props.handleChange}
+          />
+          <label id="phone">Phone Number:</label>
+          <textarea
+            name="phone"
+            data-nav="contact"
+            value={this.props.phone}
+            onChange={this.props.handleChange}
+          />
+          <label id="email">{this.state.emailLabel}:</label>
+          <textarea
+            name="email"
+            data-nav="contact"
+            value={this.props.email}
+            onChange={this.props.handleChange}
+            onBlur={this.validateEmail.bind(this)}
+          />
           <input
+            id="contact-submit"
             disabled={this.state.submitDisabled}
+            className="submit-add"
             type="submit"
             value="Submit"
           />
