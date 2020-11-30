@@ -25,25 +25,26 @@ class App extends Component {
       employmentInfo: false,
       educationArray: [],
       employmentArray: [],
+      contactArray: [],
       readyToGenerate: false,
+      generateButtonClassName: "button-not-ready",
+      generateButtonText: "CV Not Ready to Generate",
       contact: {
-        firstName: "",
-        lastName: "",
+        firstNameLastName: "",
         phone: "",
         email: "",
-        complete: false,
       },
       education: {
-        institution: "",
-        typeOfEd: "",
-        fieldOfStudy: "",
+        institution: "Cal Poly",
+        typeOfEd: "Undergraduate",
+        fieldOfStudy: "GRC",
         eduEndDate: new Date(),
         eduBeginDate: new Date(),
       },
       employment: {
-        employer: "",
-        title: "",
-        duties: "",
+        employer: "Lorem",
+        title: "Ipsum",
+        duties: "Dolor",
         emplBeginDate: new Date(),
         emplEndDate: new Date(),
       },
@@ -54,21 +55,17 @@ class App extends Component {
     const defaultValues = {
       string: "",
       boolean: false,
-      // Date: new Date(),
     };
 
-    return Object.keys(obj).reduce((acc, rec, index) => {
-      return { ...acc, [rec]: defaultValues[typeof obj[rec]] };
+    return Object.keys(obj).reduce((acc, key) => {
+      return { ...acc, [key]: defaultValues[typeof obj[key]] };
     }, {});
   };
 
   dateChange = (date, name, category) => {
-    this.setState(
-      (prevState) => ({
-        [category]: { ...prevState[category], [name]: date },
-      }),
-      () => console.log(this.state)
-    );
+    this.setState((prevState) => ({
+      [category]: { ...prevState[category], [name]: date },
+    }));
   };
 
   handleChange = (e) => {
@@ -85,15 +82,7 @@ class App extends Component {
 
   handleSubmit = (e) => {
     e.preventDefault();
-
-    this.setState({ contactClass: "contact", contactInfo: true }, () =>
-      console.log(this.state)
-    );
-  };
-
-  handleWorkEduSubmit = (e) => {
-    e.preventDefault();
-    const stateObject = e.target.dataset.target; //education
+    const stateObject = e.target.dataset.target;
     const initialClass = `${stateObject}Class`;
     const showFormClass = `${stateObject}-show`;
     const array = `${stateObject}Array`;
@@ -103,12 +92,26 @@ class App extends Component {
       : this.setState({ [initialClass]: showFormClass });
     this.setState(
       {
-        [array]: this.state[array].concat(this.state[stateObject]), //educationArray: this.state.educationArray.concat(this.state.education)
+        [array]: this.state[array].concat(this.state[stateObject]),
         [stateObject]: this.getDefaultObject(this.state[stateObject]),
         [infoBoolean]: true,
       },
-      () => console.log(this.state)
+      () => this.isReadyToGenerate(),
+      () => console.log(this.state[stateObject])
     );
+  };
+
+  isReadyToGenerate = () => {
+    if (
+      this.state.contactInfo &&
+      this.state.employmentInfo &&
+      this.state.educationInfo
+    ) {
+      this.setState({
+        generateButtonText: "Click to Generate CV",
+        generateButtonClassName: "button-ready",
+      });
+    }
   };
 
   onHeaderClick = (e) => {
@@ -129,7 +132,6 @@ class App extends Component {
       this.state.educationInfo
     ) {
       this.setState({ readyToGenerate: !this.state.readyToGenerate });
-      console.log("generating CV");
     } else if (
       !this.state.contactInfo ||
       !this.state.employmentInfo ||
@@ -137,6 +139,34 @@ class App extends Component {
     ) {
       console.log("not ready to generate");
     }
+  };
+
+  validatePhone = () => {
+    let phoneRegex = /^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/;
+    let number = this.state.contact.phone;
+    let formattedPhoneNumber = number.replace(phoneRegex, "($1) $2-$3");
+    this.setState((prevState) => ({
+      contact: {
+        ...prevState.contact,
+        phone: formattedPhoneNumber,
+      },
+    }));
+  };
+
+  editSection = (e) => {
+    const parentDiv = e.target.parentNode;
+    parentDiv.remove();
+    const index = e.target.parentNode.dataset.index;
+    const nav = e.target.parentNode.dataset.nav;
+    const classState = `${nav}Class`;
+    const stateShow = `${nav}-show`;
+    const navArray = `${nav}Array`;
+    console.log(navArray);
+    console.log(index);
+    this.setState((prevState) => ({
+      [nav]: { ...(prevState[nav] = this.state[navArray][index]) },
+    }));
+    this.setState({ [classState]: stateShow });
   };
 
   render() {
@@ -152,6 +182,7 @@ class App extends Component {
           <ContactForm
             handleChange={this.handleChange}
             handleSubmit={this.handleSubmit}
+            validatePhone={this.validatePhone}
             firstName={this.state.contact.firstName}
             lastName={this.state.contact.lastName}
             phone={this.state.contact.phone}
@@ -168,7 +199,7 @@ class App extends Component {
         >
           <EducationForm
             handleChange={this.handleChange}
-            handleSubmit={this.handleWorkEduSubmit}
+            handleSubmit={this.handleSubmit}
             institution={this.state.education.institution}
             typeOfEd={this.state.education.typeOfEd}
             fieldOfStudy={this.state.education.fieldOfStudy}
@@ -208,7 +239,7 @@ class App extends Component {
         >
           <WorkHistory
             handleChange={this.handleChange}
-            handleSubmit={this.handleWorkEduSubmit}
+            handleSubmit={this.handleSubmit}
             employer={this.state.employment.employer}
             title={this.state.employment.title}
             duties={this.state.employment.duties}
@@ -239,14 +270,27 @@ class App extends Component {
             }
           />
         </SectionHeader>
-        <button type="button" id="generate" onClick={this.generateCV}>
-          Generate My CV
+        <button
+          type="button"
+          className={this.state.generateButtonClassName}
+          onClick={this.generateCV}
+        >
+          {this.state.generateButtonText}
         </button>
         {this.state.readyToGenerate ? (
           <GeneratedCV>
-            <ContactSection {...this.state.contact} />
-            <EducationSection {...this.state.educationArray} />
-            <EmploymentSection {...this.state.employmentArray} />
+            <ContactSection
+              contactArray={this.state.contactArray}
+              editSection={this.editSection}
+            />
+            <EducationSection
+              eduArray={this.state.educationArray}
+              editSection={this.editSection}
+            />
+            <EmploymentSection
+              emplArray={this.state.employmentArray}
+              editSection={this.editSection}
+            />
           </GeneratedCV>
         ) : null}
       </div>

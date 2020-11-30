@@ -4,7 +4,7 @@ function SectionHeader(props) {
   return (
     <div className={props.class}>
       <button
-        class="header-button"
+        className="header-button"
         style={{ marginTop: "50px" }}
         onClick={props.onHeaderClick}
         data-buttonname={props.data}

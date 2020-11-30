@@ -20,12 +20,12 @@ class EducationForm extends Component {
             onChange={this.props.handleChange}
           >
             <option value="base">--</option>
-            <option style={{ fontFamily: "Lato" }} value="undergraduate">
+            <option style={{ fontFamily: "Lato" }} value="Undergraduate">
               Undergraduate
             </option>
-            <option value="graduate">Graduate</option>
-            <option value="post-graduate">Post Graduate</option>
-            <option selected value="other">
+            <option value="Graduate">Graduate</option>
+            <option value="Post-Graduate">Post Graduate</option>
+            <option selected value="Certification">
               Other
             </option>
           </select>

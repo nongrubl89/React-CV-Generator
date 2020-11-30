@@ -11,7 +11,6 @@ class ContactForm extends Component {
   validateEmail(e) {
     const mailformat = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
     const emailAdress = e.target.value;
-    console.log(emailAdress);
     if (!emailAdress.match(mailformat)) {
       this.setState({
         emailLabel: "Please enter a valid email address",
@@ -24,36 +23,44 @@ class ContactForm extends Component {
       });
     }
   }
+
+  validatePhone() {
+    let phoneRegex = /^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/;
+    let formattedPhoneNumber = this.state.phoneNumber.replace(
+      phoneRegex,
+      "($1) $2-$3"
+    );
+    this.setState({ phoneNumber: formattedPhoneNumber });
+  }
+
   showMore() {}
   render() {
     return (
       <div className="wrapper-contact">
-        <form
-          className={this.props.contactClass}
-          onSubmit={this.props.handleSubmit}
-        >
-          <label id="first-name">First Name:</label>
+        <form className={this.props.contactClass}>
+          <label id="first-name">First and Last Name:</label>
           <textarea
             // placeholder="First Name"
             // style={{ fontFamily: "Lato" }}
-            name="firstName"
+            name="firstNameLastName"
             data-nav="contact"
             value={this.props.firstName}
             onChange={this.props.handleChange}
           />
-          <label id="last-name">Last Name:</label>
+          {/* <label id="last-name">Last Name:</label>
           <textarea
             name="lastName"
             data-nav="contact"
             value={this.props.lastName}
             onChange={this.props.handleChange}
-          />
+          /> */}
           <label id="phone">Phone Number:</label>
           <textarea
             name="phone"
             data-nav="contact"
             value={this.props.phone}
             onChange={this.props.handleChange}
+            onBlur={this.props.validatePhone}
           />
           <label id="email">{this.state.emailLabel}:</label>
           <textarea
@@ -63,13 +70,17 @@ class ContactForm extends Component {
             onChange={this.props.handleChange}
             onBlur={this.validateEmail.bind(this)}
           />
-          <input
-            id="contact-submit"
+          <button
+            id="submit"
             disabled={this.state.submitDisabled}
-            className="submit-add"
-            type="submit"
+            className="submit-add submit-contact"
+            type="button"
             value="Submit"
-          />
+            data-target="contact"
+            onClick={this.props.handleSubmit}
+          >
+            Submit
+          </button>
         </form>
       </div>
     );
