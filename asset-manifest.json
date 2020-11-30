@@ -1,8 +1,8 @@
 {
   "files": {
-    "main.css": "/React-CV-Generator/static/css/main.c170d0e9.chunk.css",
-    "main.js": "/React-CV-Generator/static/js/main.85853b40.chunk.js",
-    "main.js.map": "/React-CV-Generator/static/js/main.85853b40.chunk.js.map",
+    "main.css": "/React-CV-Generator/static/css/main.61527506.chunk.css",
+    "main.js": "/React-CV-Generator/static/js/main.bdb2b3e2.chunk.js",
+    "main.js.map": "/React-CV-Generator/static/js/main.bdb2b3e2.chunk.js.map",
     "runtime-main.js": "/React-CV-Generator/static/js/runtime-main.aa7600c3.js",
     "runtime-main.js.map": "/React-CV-Generator/static/js/runtime-main.aa7600c3.js.map",
     "static/css/2.95456d05.chunk.css": "/React-CV-Generator/static/css/2.95456d05.chunk.css",
@@ -10,14 +10,14 @@
     "static/js/2.ef89f48c.chunk.js.map": "/React-CV-Generator/static/js/2.ef89f48c.chunk.js.map",
     "index.html": "/React-CV-Generator/index.html",
     "static/css/2.95456d05.chunk.css.map": "/React-CV-Generator/static/css/2.95456d05.chunk.css.map",
-    "static/css/main.c170d0e9.chunk.css.map": "/React-CV-Generator/static/css/main.c170d0e9.chunk.css.map",
+    "static/css/main.61527506.chunk.css.map": "/React-CV-Generator/static/css/main.61527506.chunk.css.map",
     "static/js/2.ef89f48c.chunk.js.LICENSE.txt": "/React-CV-Generator/static/js/2.ef89f48c.chunk.js.LICENSE.txt"
   },
   "entrypoints": [
     "static/js/runtime-main.aa7600c3.js",
     "static/css/2.95456d05.chunk.css",
     "static/js/2.ef89f48c.chunk.js",
-    "static/css/main.c170d0e9.chunk.css",
-    "static/js/main.85853b40.chunk.js"
+    "static/css/main.61527506.chunk.css",
+    "static/js/main.bdb2b3e2.chunk.js"
   ]
 }
