@@ -11,7 +11,11 @@ function ContactSection(props) {
       <h3>{info.firstNameLastName}</h3>
       <p>{info.phone}</p>
       <p>{info.email}</p>
-      <button type="button" className="submit-add" onClick={props.editSection}>
+      <button
+        type="button"
+        className="submit-add cs"
+        onClick={props.editSection}
+      >
         Edit
       </button>
     </div>

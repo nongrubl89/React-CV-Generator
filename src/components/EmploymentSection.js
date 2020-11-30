@@ -28,7 +28,11 @@ function EmploymentSection(props) {
           job.emplEndDate.toLocaleString("default", { year: "numeric" })}
       </p>
       <p id="duty">{job.duties}</p>
-      <button type="button" className="submit-add" onClick={props.editSection}>
+      <button
+        type="button"
+        className="submit-add edit"
+        onClick={props.editSection}
+      >
         Edit
       </button>
     </div>

@@ -16,7 +16,11 @@ function EducationSection(props) {
           " " +
           edu.eduEndDate.toLocaleString("default", { year: "numeric" })}
       </p>
-      <button type="button" className="submit-add" onClick={props.editSection}>
+      <button
+        type="button"
+        className="submit-add edit"
+        onClick={props.editSection}
+      >
         Edit
       </button>
     </div>
